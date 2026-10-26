@@ -1,0 +1,3 @@
+[build]
+  publish = "netlify-site"
+  command = "echo 'NEXUS static frontend ready'"
