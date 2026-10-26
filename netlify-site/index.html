@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NEXUS enterprise decision intelligence dashboard">
+<title>NEXUS | Decision Intelligence</title>
+<link rel="stylesheet" href="./style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<aside>
+  <div class="brand">NEXUS<span>AI</span></div>
+  <div class="nav active">◈ Executive Dashboard</div>
+  <div class="nav">◉ Sales Analytics</div>
+  <div class="nav">◎ Customer Intelligence</div>
+  <div class="nav">◌ AI Insights</div>
+  <div class="nav">▣ Reports</div>
+  <div class="sidebottom">Enterprise Decision Intelligence<br><small>Business Analytics • AI • GenAI</small></div>
+</aside>
+<main>
+<header>
+  <div><div class="eyebrow">ENTERPRISE ANALYTICS</div><h1>Decision Intelligence</h1></div>
+  <div class="badge">● DASHBOARD</div>
+</header>
+
+<div id="connectionNotice" class="notice">Connecting to NEXUS API…</div>
+
+<section class="cards">
+ <div class="card"><span>REVENUE</span><b id="revenue">—</b><small>Demo sales value</small></div>
+ <div class="card"><span>PROFIT</span><b id="profit">—</b><small>Demo operating profit</small></div>
+ <div class="card"><span>ORDERS</span><b id="orders">—</b><small>Transactions</small></div>
+ <div class="card"><span>PROFIT MARGIN</span><b id="margin">—</b><small>Overall margin</small></div>
+</section>
+
+<section class="grid">
+ <div class="panel"><div class="panelhead"><h2>Revenue & Profit Trend</h2><span>Demo data · 2025</span></div><canvas id="trend"></canvas></div>
+ <div class="panel"><div class="panelhead"><h2>AI Revenue Forecast</h2><span>3 periods</span></div><canvas id="forecast"></canvas></div>
+</section>
+
+<section class="grid">
+ <div class="panel"><div class="panelhead"><h2>Regional Analytics</h2></div><div id="regions" class="table"></div></div>
+ <div class="panel"><div class="panelhead"><h2>Top Products</h2></div><div id="products" class="table"></div></div>
+</section>
+
+<section class="panel">
+ <div class="panelhead"><h2>Business Analyst Assistant</h2><span>Ask NEXUS</span></div>
+ <div class="ask"><input id="question" placeholder="Why did revenue change? Which customers are at risk?"><button id="askButton">Analyze</button></div>
+ <div id="answer" class="answer">Ask a question about revenue, profit, customers, churn, or regions.</div>
+ <small class="hint">The demo assistant uses predefined data-backed response templates, not a connected LLM.</small>
+</section>
+
+<section class="panel">
+ <div class="panelhead"><h2>AI Anomaly Detection</h2><span>Isolation Forest</span></div>
+ <div id="anomalies" class="table"></div>
+</section>
+<footer>NEXUS · Demonstration project with synthetic business data.</footer>
+</main>
+<script src="./config.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
