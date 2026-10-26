@@ -11,6 +11,16 @@ DB = os.path.join(BASE, "nexus.db")
 app = Flask(__name__)
 
 
+@app.after_request
+def enable_cors(response):
+    # Demo deployment: allow the Netlify frontend to call this API.
+    # For a production app, restrict this to your exact Netlify domain.
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    return response
+
+
 def db():
     conn = sqlite3.connect(DB)
     conn.row_factory = sqlite3.Row
@@ -233,9 +243,17 @@ def ask():
     return jsonify({"answer": answer})
 
 
+# Initialize the database and seed demo data when the WSGI server imports this module.
+# This is required on hosts such as Render, where Gunicorn imports app:app.
+init_db()
+marker = os.path.join(BASE, ".seeded")
+if not os.path.exists(marker):
+    subprocess.run([sys.executable, os.path.join(BASE, "seed.py")], check=True)
+
+
 if __name__ == "__main__":
-    init_db()
-    marker = os.path.join(BASE, ".seeded")
-    if not os.path.exists(marker):
-        subprocess.run([sys.executable, os.path.join(BASE, "seed.py")], check=True)
-    app.run(debug=True, port=5000)
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", "5000")),
+        debug=os.environ.get("FLASK_DEBUG") == "1"
+    )
