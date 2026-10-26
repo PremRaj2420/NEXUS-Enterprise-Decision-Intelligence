@@ -6,13 +6,14 @@ A lightweight business intelligence MVP combining operational analytics, machine
 - Executive KPIs: revenue, profit, transaction count, and profit margin
 - Monthly revenue and profit trends
 - Regional and product performance tables
-- Random Forest revenue forecast demonstration
+- Random Forest revenue forecasting demonstration
 - Isolation Forest anomaly detection
-- Natural-language business Q&A endpoint (rule-based insight templates, not a connected LLM)
-- SQLite-backed demo dataset and CSV export for Power BI/Tableau
+- Natural-language business Q&A endpoint using rule-based insights
+- SQLite-backed synthetic demo data
+- CSV export generated for Power BI and Tableau
 
-## Stack
-Python, Flask, SQLite, pandas, scikit-learn, HTML, CSS, JavaScript, Chart.js.
+## Tech stack
+Python, Flask, SQLite, pandas, scikit-learn, HTML, CSS, JavaScript, and Chart.js.
 
 ## Run locally
 
@@ -23,13 +24,24 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Open http://127.0.0.1:5000. The app seeds a local demo database on the first run.
+Open http://127.0.0.1:5000. On first run, the app creates the SQLite database, generates synthetic transactions and customers, and writes `data/transactions.csv`.
 
-## Data and BI
-`data/transactions.csv` contains synthetic transaction data for practice and dashboard building. Import it into Power BI or Tableau and create executive KPI, monthly trend, regional performance, and product profitability views.
+## Power BI and Tableau
+Import `data/transactions.csv` after the first run. Suggested views:
+- Executive KPI overview
+- Monthly revenue and profit trends
+- Regional performance comparison
+- Product profitability
 
-## Jira / Agile suggestion
-Track the project in Jira with epics for Data & SQL, Analytics, Power BI, Tableau, AI/ML, GenAI Assistant, and Web Application.
+## Jira / Agile
+Suggested epics for a Jira project:
+1. Data & SQL
+2. Business Analytics
+3. Power BI Dashboard
+4. Tableau Dashboard
+5. AI/ML Analytics
+6. Business Q&A Assistant
+7. Web Application
 
-## Important scope note
-This is a demo MVP using synthetic data. The forecasting model is a baseline demonstration, and the business Q&A endpoint uses deterministic templates rather than a connected large language model. Validate metrics and model quality before using for real business decisions.
+## Scope and limitations
+This is a demo MVP using synthetic data. The forecast is a baseline machine-learning demonstration. The Q&A endpoint uses deterministic response templates and is **not connected to an LLM**, despite the UI's GenAI-style label. Validate model quality and metrics before using this design for real business decisions.
