@@ -3,54 +3,134 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NEXUS | Decision Intelligence</title>
-<link rel="stylesheet" href="/static/style.css">
+<meta name="description" content="NEXUS enterprise decision intelligence demo">
+<title>NEXUS | Enterprise Decision Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<aside>
-  <div class="brand">NEXUS<span>AI</span></div>
-  <div class="nav active">◈ Executive Dashboard</div>
-  <div class="nav">◉ Sales Analytics</div>
-  <div class="nav">◎ Customer Intelligence</div>
-  <div class="nav">◌ AI Insights</div>
-  <div class="nav">▣ Reports</div>
-  <div class="sidebottom">Enterprise Decision Intelligence<br><small>Business Analytics • AI • GenAI</small></div>
+<aside class="sidebar">
+  <a class="brand" href="#" data-view="overview"><span class="brand-mark">N</span><span>NEXUS<small>DECISION INTELLIGENCE</small></span></a>
+  <div class="side-label">WORKSPACE</div>
+  <button class="nav active" data-view="overview"><span>◈</span> Overview</button>
+  <button class="nav" data-view="sales"><span>▥</span> Sales analytics</button>
+  <button class="nav" data-view="customers"><span>◎</span> Customer 360</button>
+  <button class="nav" data-view="insights"><span>✳</span> AI insights</button>
+  <button class="nav" data-view="assistant"><span>◌</span> Business analyst</button>
+  <button class="nav" data-view="reports"><span>▤</span> Reports & exports</button>
+  <div class="sidebar-bottom">
+    <div class="profile-mark">ND</div><div><strong>NEXUS Demo</strong><small>Enterprise workspace</small></div>
+    <span class="online-dot"></span>
+  </div>
 </aside>
-<main>
-<header>
-  <div><div class="eyebrow">ENTERPRISE ANALYTICS</div><h1>Decision Intelligence</h1></div>
-  <div class="badge">● SYSTEM ONLINE</div>
+
+<main class="main">
+<header class="topbar">
+  <div class="crumb"><span>Workspace</span><b>/</b><strong id="pageCrumb">Overview</strong></div>
+  <div class="top-actions">
+    <span class="data-pill"><i></i> DEMO DATA</span>
+    <button class="icon-btn" id="refreshBtn" title="Refresh dashboard" aria-label="Refresh dashboard">↻</button>
+  </div>
 </header>
 
-<section class="cards">
- <div class="card"><span>REVENUE</span><b id="revenue">—</b><small>Annual sales</small></div>
- <div class="card"><span>PROFIT</span><b id="profit">—</b><small>Net operating profit</small></div>
- <div class="card"><span>ORDERS</span><b id="orders">—</b><small>Transactions</small></div>
- <div class="card"><span>PROFIT MARGIN</span><b id="margin">—</b><small>Overall margin</small></div>
-</section>
+<div class="page-view active" id="view-overview">
+  <section class="page-heading">
+    <div><p class="eyebrow">EXECUTIVE BRIEFING</p><h1>Decision overview<span class="period">.</span></h1><p class="subheading">A single view of business health, performance and emerging risks.</p></div>
+    <span class="updated" id="lastUpdated">Loading data…</span>
+  </section>
+  <section class="kpi-grid">
+    <article class="kpi-card"><div class="kpi-top"><span>Total revenue</span><span class="kpi-icon blue">↗</span></div><strong id="kpiRevenue">—</strong><div class="kpi-foot"><span class="muted">Across all transactions</span></div></article>
+    <article class="kpi-card"><div class="kpi-top"><span>Total profit</span><span class="kpi-icon violet">◈</span></div><strong id="kpiProfit">—</strong><div class="kpi-foot"><span class="muted">Revenue less costs</span></div></article>
+    <article class="kpi-card"><div class="kpi-top"><span>Transactions</span><span class="kpi-icon green">▤</span></div><strong id="kpiOrders">—</strong><div class="kpi-foot"><span class="muted">Recorded transactions</span></div></article>
+    <article class="kpi-card"><div class="kpi-top"><span>Profit margin</span><span class="kpi-icon amber">%</span></div><strong id="kpiMargin">—</strong><div class="kpi-foot"><span class="muted">Profit / revenue</span></div></article>
+  </section>
+  <section class="content-grid overview-grid">
+    <article class="panel chart-panel span-two"><div class="panel-heading"><div><h2>Revenue & profit trend</h2><p>Monthly performance across the dataset</p></div><span class="panel-tag">12 MONTHS</span></div><div class="chart-wrap"><canvas id="overviewTrend"></canvas></div></article>
+    <article class="panel"><div class="panel-heading"><div><h2>At-a-glance</h2><p>Customer and order signals</p></div></div><div class="mini-metrics"><div><span>Customers</span><strong id="kpiCustomers">—</strong></div><div><span>Avg. order value</span><strong id="kpiAov">—</strong></div><div><span>High-risk customers</span><strong id="kpiRisk">—</strong></div></div><button class="text-link" data-view="customers">Explore customer risk <span>→</span></button></article>
+  </section>
+  <section class="content-grid">
+    <article class="panel"><div class="panel-heading"><div><h2>Regional performance</h2><p>Where revenue is generated</p></div><button class="text-link" data-view="sales">View sales <span>→</span></button></div><div id="overviewRegions" class="table-wrap"></div></article>
+    <article class="panel"><div class="panel-heading"><div><h2>Top products</h2><p>Ranked by total revenue</p></div><button class="text-link" data-view="sales">Details <span>→</span></button></div><div id="overviewProducts" class="table-wrap"></div></article>
+  </section>
+  <section class="panel"><div class="panel-heading"><div><h2>Management signals</h2><p>Initial findings generated from the current demo data</p></div><button class="text-link" data-view="insights">All insights <span>→</span></button></div><div id="overviewInsights" class="signal-list"></div></section>
+</div>
 
-<section class="grid">
- <div class="panel wide"><div class="panelhead"><h2>Revenue & Profit Trend</h2><span>2025</span></div><canvas id="trend"></canvas></div>
- <div class="panel"><div class="panelhead"><h2>AI Revenue Forecast</h2><span>3 periods</span></div><canvas id="forecast"></canvas></div>
-</section>
+<div class="page-view" id="view-sales">
+  <section class="page-heading"><div><p class="eyebrow">PERFORMANCE EXPLORER</p><h1>Sales analytics<span class="period">.</span></h1><p class="subheading">Slice revenue and profitability by time, region and product.</p></div><a class="button button-secondary" href="/api/reports/transactions.csv">↓ Export transactions</a></section>
+  <section class="panel filter-panel"><div class="panel-heading"><div><h2>Refine your view</h2><p>Choose filters, then apply them to the sales results.</p></div></div>
+    <form id="salesFilter" class="filters">
+      <label>Start date<input type="date" id="salesStart" value="2025-01-01"></label>
+      <label>End date<input type="date" id="salesEnd" value="2025-12-31"></label>
+      <label>Region<select id="salesRegion"><option>All</option></select></label>
+      <label>Product<select id="salesProduct"><option>All</option></select></label>
+      <button class="button button-primary" type="submit">Apply filters</button><button class="button button-secondary" id="resetSales" type="button">Reset</button>
+    </form>
+  </section>
+  <section class="kpi-grid three-kpis">
+    <article class="kpi-card"><div class="kpi-top"><span>Filtered revenue</span><span class="kpi-icon blue">↗</span></div><strong id="salesRevenue">—</strong></article>
+    <article class="kpi-card"><div class="kpi-top"><span>Filtered profit</span><span class="kpi-icon violet">◈</span></div><strong id="salesProfit">—</strong></article>
+    <article class="kpi-card"><div class="kpi-top"><span>Transactions</span><span class="kpi-icon green">▤</span></div><strong id="salesOrders">—</strong></article>
+  </section>
+  <section class="panel"><div class="panel-heading"><div><h2>Filtered monthly trend</h2><p>Revenue and profit for the selected scope</p></div><span class="panel-tag">FILTERED VIEW</span></div><div class="chart-wrap large"><canvas id="salesTrend"></canvas></div></section>
+  <section class="content-grid"><article class="panel"><div class="panel-heading"><div><h2>Regional breakdown</h2><p>Revenue, profit and order counts</p></div></div><div id="salesRegions" class="table-wrap"></div></article><article class="panel"><div class="panel-heading"><div><h2>Product profitability</h2><p>Revenue, profit and margin</p></div></div><div id="salesProducts" class="table-wrap"></div></article></section>
+</div>
 
-<section class="grid">
- <div class="panel"><div class="panelhead"><h2>Regional Analytics</h2></div><div id="regions" class="table"></div></div>
- <div class="panel"><div class="panelhead"><h2>Top Products</h2></div><div id="products" class="table"></div></div>
-</section>
+<div class="page-view" id="view-customers">
+  <section class="page-heading"><div><p class="eyebrow">CUSTOMER INTELLIGENCE</p><h1>Customer 360<span class="period">.</span></h1><p class="subheading">Find accounts needing attention and prioritize retention actions.</p></div><a class="button button-secondary" href="/api/reports/customers.csv">↓ Export customers</a></section>
+  <section class="kpi-grid three-kpis">
+    <article class="kpi-card"><div class="kpi-top"><span>Total customers</span><span class="kpi-icon blue">◎</span></div><strong id="customerTotal">—</strong></article>
+    <article class="kpi-card"><div class="kpi-top"><span>High-risk accounts</span><span class="kpi-icon red">!</span></div><strong id="customerHighRisk">—</strong><div class="kpi-foot"><span class="muted">Risk score ≥ 70</span></div></article>
+    <article class="kpi-card"><div class="kpi-top"><span>Average satisfaction</span><span class="kpi-icon green">★</span></div><strong id="customerSatisfaction">—</strong><div class="kpi-foot"><span class="muted">Out of 5</span></div></article>
+  </section>
+  <section class="panel"><div class="panel-heading"><div><h2>Customer portfolio</h2><p>Search by customer or region and filter by risk/segment.</p></div></div>
+    <form id="customerFilter" class="filters customer-filters">
+      <label class="search-label">Search<input id="customerSearch" type="search" placeholder="Customer name or region"></label>
+      <label>Risk level<select id="customerRisk"><option value="all">All risk levels</option><option value="high">High (≥70)</option><option value="medium">Medium (40–69)</option><option value="low">Low (&lt;40)</option></select></label>
+      <label>Segment<select id="customerSegment"><option>All</option><option>Enterprise</option><option>Mid-Market</option><option>SMB</option></select></label>
+      <button class="button button-primary" type="submit">Filter</button><button class="button button-secondary" id="resetCustomers" type="button">Reset</button>
+    </form>
+    <div id="customerTable" class="table-wrap"></div><div class="table-note" id="customerCount"></div>
+  </section>
+  <section class="panel"><div class="panel-heading"><div><h2>Segment comparison</h2><p>Customer count, revenue and average risk by segment</p></div></div><div id="segmentsTable" class="table-wrap"></div></section>
+</div>
 
-<section class="panel">
- <div class="panelhead"><h2>GenAI Business Analyst</h2><span>Ask NEXUS</span></div>
- <div class="ask"><input id="question" placeholder="Why did revenue change? Which customers are at risk?"><button id="askButton">Analyze</button></div>
- <div id="answer" class="answer">Ask a business question to receive a data-backed response.</div>
-</section>
+<div class="page-view" id="view-insights">
+  <section class="page-heading"><div><p class="eyebrow">AI & RISK MONITORING</p><h1>AI insights<span class="period">.</span></h1><p class="subheading">Baseline forecasting and statistical outlier detection for decision support.</p></div><button class="button button-primary" id="refreshInsights">↻ Refresh analysis</button></section>
+  <div id="insightCards" class="insight-grid"></div>
+  <section class="content-grid">
+    <article class="panel"><div class="panel-heading"><div><h2>Revenue forecast</h2><p>Random Forest baseline using monthly history</p></div><span class="panel-tag">PROTOTYPE</span></div><div class="chart-wrap"><canvas id="insightForecast"></canvas></div><div class="callout">Forecasts are illustrative estimates. They have not been backtested and should not be treated as validated predictions.</div></article>
+    <article class="panel"><div class="panel-heading"><div><h2>Detected anomalies</h2><p>Transactions flagged by Isolation Forest</p></div><span class="panel-tag">REVIEW REQUIRED</span></div><div id="insightAnomalies" class="table-wrap"></div><div class="callout">An outlier is not automatically an error or fraud. Validate it against source records.</div></article>
+  </section>
+</div>
 
-<section class="panel">
- <div class="panelhead"><h2>AI Anomaly Detection</h2><span>Isolation Forest</span></div>
- <div id="anomalies" class="table"></div>
-</section>
+<div class="page-view" id="view-assistant">
+  <section class="page-heading"><div><p class="eyebrow">DECISION SUPPORT</p><h1>Business analyst<span class="period">.</span></h1><p class="subheading">Ask a business question and get a response grounded in the current demo dataset.</p></div></section>
+  <section class="assistant-layout">
+    <article class="panel assistant-panel"><div class="assistant-title"><div class="assistant-avatar">N</div><div><h2>NEXUS Analyst</h2><p><i></i> Connected to business data</p></div></div>
+      <div class="suggestions"><span>Try asking</span><button class="prompt-chip" data-prompt="Why is revenue performance different across regions?">Why do regions differ?</button><button class="prompt-chip" data-prompt="Which customers are at risk of churn?">Which customers are at risk?</button><button class="prompt-chip" data-prompt="Which products drive profit?">Which products drive profit?</button><button class="prompt-chip" data-prompt="What anomalies were detected?">Show anomalies</button><button class="prompt-chip" data-prompt="What is the revenue forecast?">Forecast revenue</button></div>
+      <div id="chatHistory" class="chat-history"><div class="chat-message assistant-message"><span class="chat-label">NEXUS ANALYST</span><p>Hello! I can summarize performance, identify high-risk customers, compare products and regions, or explain the demo forecast. Choose a question above or ask your own.</p></div></div>
+      <form id="askForm" class="chat-input"><textarea id="chatQuestion" rows="2" placeholder="Ask a question about your business data…"></textarea><button class="button button-primary" type="submit">Ask analyst ↑</button></form>
+      <p class="fine-print">Interview demo: the analyst uses transparent rule-based logic and SQL aggregates. It is not an external LLM, so answers should be treated as decision-support prompts rather than causal proof.</p>
+    </article>
+    <aside class="panel assistant-side"><h2>What this analyst can do</h2><div class="capability"><b>01</b><div><strong>Performance summary</strong><p>Summarize revenue, profit and regional leaders.</p></div></div><div class="capability"><b>02</b><div><strong>Customer risk</strong><p>Identify accounts with high risk scores and suggest follow-up.</p></div></div><div class="capability"><b>03</b><div><strong>Product analysis</strong><p>Compare revenue leaders with profit leaders.</p></div></div><div class="capability"><b>04</b><div><strong>Risk signals</strong><p>Explain statistical outliers and forecast limitations.</p></div></div></aside>
+  </section>
+</div>
+
+<div class="page-view" id="view-reports">
+  <section class="page-heading"><div><p class="eyebrow">EXPORT CENTER</p><h1>Reports & exports<span class="period">.</span></h1><p class="subheading">Download data extracts to share, audit or build Power BI and Tableau views.</p></div></section>
+  <section class="report-grid">
+    <article class="report-card"><div class="report-icon blue">▤</div><h2>Executive summary</h2><p>One row per KPI: revenue, profit, transaction count, margin, average order value and high-risk customers.</p><div class="report-foot"><span>CSV · 7 metrics</span><a class="button button-primary" href="/api/reports/summary.csv">Download ↓</a></div></article>
+    <article class="report-card"><div class="report-icon violet">▦</div><h2>Transactions dataset</h2><p>Transaction-level business data, including date, region, product, quantity, revenue, cost and profit.</p><div class="report-foot"><span>CSV · 900 demo rows</span><a class="button button-primary" href="/api/reports/transactions.csv">Download ↓</a></div></article>
+    <article class="report-card"><div class="report-icon green">◎</div><h2>Customer intelligence</h2><p>Customer segment, region, order count, estimated revenue, satisfaction and churn-risk score.</p><div class="report-foot"><span>CSV · 80 demo accounts</span><a class="button button-primary" href="/api/reports/customers.csv">Download ↓</a></div></article>
+  </section>
+  <section class="panel"><div class="panel-heading"><div><h2>BI handoff</h2><p>Use these exports to create or refresh a BI dashboard.</p></div></div><div class="handoff-steps"><div><span>1</span><strong>Download CSV</strong><p>Choose a report above.</p></div><div><span>2</span><strong>Import into Power BI / Tableau</strong><p>Connect to the downloaded file.</p></div><div><span>3</span><strong>Build KPI visuals</strong><p>Create revenue, profit, region and product views.</p></div></div></section>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<footer class="app-footer"><span>NEXUS · Enterprise Decision Intelligence</span><span>Synthetic data · Portfolio demo</span></footer>
 </main>
-<script src="/static/app.js"></script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
